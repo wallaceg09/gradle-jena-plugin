@@ -29,9 +29,11 @@ public class SchemaGen extends SourceTask {
     private File outputDirectory;
     private String packageName;
     private String classNameSuffix;
+    private String[] declarations;
     private boolean inference;
     private boolean ontology;
     private boolean nostrict;
+    private boolean includeSource;
 
     @OutputDirectory
     public File getOutputDirectory() {
@@ -54,6 +56,16 @@ public class SchemaGen extends SourceTask {
     public void packageName(String packageName) {
         setPackageName(packageName);
     }
+
+    @Input
+    @Optional
+    public String[] getDeclarations() {
+        return declarations;
+    }
+    public void setDeclarations(String[] declarations) {
+        this.declarations = declarations;
+    }
+    public void declarations(String[] declarations) {this.setDeclarations(declarations);}
 
     @Input
     @Optional
@@ -100,6 +112,11 @@ public class SchemaGen extends SourceTask {
         setNostrict(nostrict);
     }
 
+    @Input
+    public boolean isIncludeSource() { return includeSource; }
+    public void setIncludeSource(boolean includeSource) { this.includeSource = includeSource; }
+    public void includeSource(boolean includeSource) { setIncludeSource(includeSource);}
+
     @TaskAction
     public void exec() {
 
@@ -120,6 +137,14 @@ public class SchemaGen extends SourceTask {
                 options.add("--classnamesuffix");
                 options.add(getClassNameSuffix());
             }
+
+            if(getDeclarations() != null && getDeclarations().length > 0) {
+                options.add("--declarations");
+                for(String declaration : getDeclarations()) {
+                    options.add(declaration);
+                }
+            }
+
             if(isInference()) {
                 options.add("--inference");
             }
@@ -128,6 +153,9 @@ public class SchemaGen extends SourceTask {
             }
             if(isNostrict()) {
                 options.add("--nostrict");
+            }
+            if(isIncludeSource()) {
+                options.add("--includeSource");
             }
 
             logger.info("Excecuting schemagen: " + options);
