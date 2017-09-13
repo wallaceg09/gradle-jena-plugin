@@ -34,6 +34,7 @@ public class SchemaGen extends SourceTask {
     private boolean ontology;
     private boolean nostrict;
     private boolean includeSource;
+    private boolean noindividuals;
 
     @OutputDirectory
     public File getOutputDirectory() {
@@ -117,6 +118,11 @@ public class SchemaGen extends SourceTask {
     public void setIncludeSource(boolean includeSource) { this.includeSource = includeSource; }
     public void includeSource(boolean includeSource) { setIncludeSource(includeSource);}
 
+    @Input
+    public boolean isNoindividuals() { return noindividuals; }
+    public void setNoindividuals(boolean noindividuals) { this.noindividuals = noindividuals; }
+    public void noindividuals(boolean noindividuals) { setNoindividuals(noindividuals);}
+
     @TaskAction
     public void exec() {
 
@@ -156,6 +162,9 @@ public class SchemaGen extends SourceTask {
             }
             if(isIncludeSource()) {
                 options.add("--includeSource");
+            }
+            if(isNoindividuals()) {
+                options.add("--noindividuals");
             }
 
             logger.info("Excecuting schemagen: " + options);
