@@ -5,6 +5,8 @@
  *  you may obtain a copy of the License at:
  *
  *  http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  This file has been modified pursuant to the Apache license.
  */
 package hu.webhejj.gradle.jena;
 
